@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,6 +25,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # !!! SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-!fj#++q$!^e_6@2q6&8w#4mkp5!nlbg0p5_k2vbtgmyao^&%$c'
+# Secure way:
+# SECRET_KEY = str(os.getenv("SECRET_KEY"))
 
 # !!! SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -37,7 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'messagesapp'
+    'messagesapp.apps.MessagesappConfig',
 ]
 
 MIDDLEWARE = [
@@ -106,7 +112,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Helsinki'
 
 USE_I18N = True
 
