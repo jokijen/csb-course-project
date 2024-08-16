@@ -1,0 +1,82 @@
+body {
+    background: snow;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: rgb(38, 38, 38);
+    margin: 0;
+}
+
+.content-wrapper {
+    padding-left: 40px;
+    padding-top: 15px;
+}
+
+h1 {
+    font-size: 35px;
+}
+
+h2 {
+    font-size: 22px;
+    color: rgb(12, 146, 128);
+}
+
+p {
+    margin-bottom: 20px;
+}
+
+.topnav {
+    background-color: rgb(52, 0, 87);
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+.topnav a {
+    float: left;
+    color: rgb(217, 217, 217);
+    text-align: center;
+    padding: 20px 40px;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.topnav a:hover {
+    background-color: rgb(136, 0, 227);
+}
+
+form {
+    background: transparent;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 5px;
+    max-width: 400px;
+    margin: 0;
+}
+
+form label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+form input,
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 13px;
+    color: #333333;
+}
+
+button, 
+form input [type="submit"] {
+    width: auto;
+    background: rgb(12, 146, 128);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
