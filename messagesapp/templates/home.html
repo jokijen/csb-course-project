@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Home - Messages app{% endblock %}
+{% block content %}
+
+    <div class="container">
+        <h1>Home</h1>
+        <h2>Messages</h2>
+        <hr> 
+        {% for message in messages %}
+        <h3>{{ message.sender }}</h3>
+        <p>{{ message.content}}</p>
+        <hr> 
+        {% endfor %}
+
+    </div>
+    
+{% endblock %}

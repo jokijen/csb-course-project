@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Welcome - Messages app{% endblock %}
+{% block content %}
+
+    <div class="container">
+        <h1>Welcome to Messages</h1>
+        <h2>Send private messages to other users</h2>
+        <form action="{% url 'index' %}" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="submit">Log in</button>
+        </form>
+        <p>Don't have an account yet? You can create one <a href="/register">here</a>.</p>
+    </div>
+    
+{% endblock %}
