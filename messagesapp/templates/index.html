@@ -8,6 +8,11 @@
         <form action="{% url 'index' %}" method="post">
             {% csrf_token %}
             {{ form.as_p }}
+            {% if form.errors %}
+            <div class="error-msg">
+                <p>{{ error }}</p>
+            </div>
+            {% endif %}
             <button class="submit">Log in</button>
         </form>
         <p>Don't have an account yet? You can create one <a href="/register">here</a>.</p>

@@ -32,6 +32,8 @@ def indexPageView(request):
             if user:
                 login(request, user)
                 return redirect("home")
+            else:
+                form.add_error(None, "Invalid username or password. Please try again.")
     else:
         form = LoginForm()
     return render(request, "index.html", {"form": form})
