@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}New conversation - Messages app{% endblock %}
+{% block content %}
+
+    <div class="container">
+        <h1>New conversation</h1>
+        <p>Start a new conversation by selecting a user and sending them a message.</p>
+        <form action="{% url 'new_conversation' %}" method="post">
+            {% csrf_token %}
+            {{ form.as_p}}
+
+            {% if form.errors %}
+            <div class="error-msg">
+                <p>{{ error }}</p>
+            </div>
+            {% endif %}
+
+            <button type="submit">Send message</button>
+        </form>
+    </div>
+    
+{% endblock %}

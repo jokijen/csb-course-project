@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Conversation - Messages app{% endblock %}
+{% block content %}
+
+    <div class="container">
+        <h1>Home</h1>
+        <h2>Conversation</h2>
+        <hr> 
+        {% for message in messages %}
+        <h3>{{ message.sender }} - {{ message.created }}</h3>
+        <p>{{ message.content}}</p>
+        <hr> 
+        {% endfor %}
+
+    </div>
+    
+{% endblock %}

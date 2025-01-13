@@ -4,11 +4,14 @@
 
     <div class="container">
         <h1>Home</h1>
-        <h2>Messages</h2>
+        <p>Welcome {{ request.user.username }}! Here are all your active conversations.</p>
+        <h2>Conversations</h2>
         <hr> 
-        {% for message in messages %}
-        <h3>{{ message.sender }}</h3>
-        <p>{{ message.content}}</p>
+        {% for conversation in conversations %}
+        <a href="{% url 'conversation_detail' conversation.id %}">
+            <h3>{{ conversation.initiator }} &rarr; {{ conversation.receiver }}</h3>
+        </a>
+        <p>started at {{ conversation.created}}</p>
         <hr> 
         {% endfor %}
 
