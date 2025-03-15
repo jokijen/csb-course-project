@@ -47,14 +47,14 @@ def logoutPage(request):
 
 #@login_required
 def homePage(request):
-    user = request.user
+    user_id = request.user.id
     """
     context = {
         "messages": Message.objects.all()
         }
     """
     conversations = Conversation.objects.filter(
-        Q(initiator=user) | Q(receiver=user), 
+        Q(initiator_id=user_id) | Q(receiver_id=user_id), 
         deleted=False
     ).order_by("-created")
 
@@ -95,6 +95,6 @@ def conversationDetailPage(request, conversation_id):
 
     else: 
         conversation = get_object_or_404(Conversation, id=conversation_id)
-        messages = conversation.conversations.all().order_by("created")
+        messages = conversation.messages.all().order_by("created")
 
     return render(request, "conversation_detail.html", {"messages": messages})

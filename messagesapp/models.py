@@ -16,7 +16,7 @@ class Conversation(models.Model):
 class Message(models.Model):
     sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name="senders")
     recipient = models.ForeignKey(User, on_delete=models.CASCADE, related_name="recipients")
-    conversation = models.ForeignKey(Conversation, on_delete=models.CASCADE, related_name="conversations")
+    conversation = models.ForeignKey(Conversation, on_delete=models.CASCADE, related_name="messages")
     content = models.CharField(max_length=1000) 
     created = models.DateTimeField(auto_now_add=True)
     deleted = models.BooleanField(default=False)
