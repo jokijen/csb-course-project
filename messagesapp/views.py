@@ -24,8 +24,8 @@ def indexPage(request):
                 return redirect("home")
             else:
                 form.add_error(None, "Invalid username or password. Please try again.")
-    else:
-        form = LoginForm()
+
+    form = LoginForm()
     return render(request, "index.html", {"form": form})
 
 
@@ -37,8 +37,8 @@ def registerPage(request):
             user = form.save()
             login(request, user)
             return redirect("home")
-    else:
-        form = RegistrationForm()
+
+    form = RegistrationForm()
 
     return render(request, "register.html", {"form": form})
 
@@ -52,13 +52,19 @@ def logoutPage(request):
 def homePage(request):
     if not request.user.is_authenticated:
         return redirect('index')
-        
+
+    if request.method == "POST":
+        delete_conversation = request.POST.get("delete")
+        if delete_conversation:
+            conversation_id = request.POST.get("conversation_id")
+            conversation = get_object_or_404(Conversation, id=conversation_id)
+            if request.user == conversation.initiator or request.user == conversation.receiver:
+                conversation.deleted = True
+                conversation.save()
+                return redirect("home")
+
     user_id = request.user.id
-    """
-    context = {
-        "messages": Message.objects.all()
-        }
-    """
+
     conversations = Conversation.objects.filter(
         Q(initiator_id=user_id) | Q(receiver_id=user_id), 
         deleted=False
@@ -88,11 +94,9 @@ def newConversationPage(request):
             )
             return redirect("home")
         
-        else:
-            return render(request, "new_conversation.html", {"form": form}, {"error": "Could not send message. Please try again."})
+        return render(request, "new_conversation.html", {"form": form, "error": "Could not send message. Please try again."})
 
-    else:
-        form = NewConversationForm()
+    form = NewConversationForm()
 
     return render(request, "new_conversation.html", {"form": form})
 
@@ -106,15 +110,15 @@ def conversationDetailPage(request, conversation_id):
     conversation = get_object_or_404(Conversation, id=conversation_id)
     if request.user != conversation.initiator and request.user != conversation.receiver:
         return redirect('home')
-        
+
     if request.method == "POST":
         form = NewMessageForm(request.POST)
         if form.is_valid():
             message_content = form.cleaned_data["message"]
-            
+
             # Determine the recipient (the other person in the conversation)
             recipient = conversation.receiver if request.user == conversation.initiator else conversation.initiator
-            
+
             # Create the new message
             Message.objects.create(
                 sender=request.user,
@@ -122,15 +126,15 @@ def conversationDetailPage(request, conversation_id):
                 conversation=conversation,
                 content=message_content
             )
-            
+
             # Redirect to avoid re-submission on page refresh
             return redirect('conversation_detail', conversation_id=conversation_id)
-    else:
-        form = NewMessageForm()
+
+    form = NewMessageForm()
 
     # Get all messages in the conversation
     messages = conversation.messages.all().order_by("created")
-    
+
     return render(request, "conversation_detail.html", {
         "messages": messages,
         "conversation": conversation,

@@ -12,6 +12,12 @@
             <h3>{{ conversation.initiator }} &rarr; {{ conversation.receiver }}</h3>
         </a>
         <p>started on {{ conversation.created}}</p>
+        <form method="post" style="display: inline;">
+            {% csrf_token %}
+            <input type="hidden" name="delete" value="true">
+            <input type="hidden" name="conversation_id" value="{{ conversation.id }}">
+            <button type="submit" class="btn-delete" onclick="return confirm('Are you sure?')">Delete</button>
+        </form>
         <hr> 
         {% endfor %}
 
