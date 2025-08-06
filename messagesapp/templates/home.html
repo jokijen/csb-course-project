@@ -11,7 +11,7 @@
         <a href="{% url 'conversation_detail' conversation.id %}">
             <h3>{{ conversation.initiator }} &rarr; {{ conversation.receiver }}</h3>
         </a>
-        <p>started at {{ conversation.created}}</p>
+        <p>started on {{ conversation.created}}</p>
         <hr> 
         {% endfor %}
 

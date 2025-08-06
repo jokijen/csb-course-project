@@ -25,6 +25,18 @@ class NewConversationForm(forms.Form): # For starting a new conversation with an
     )
     message = forms.CharField(
         label="Message",
-        widget=forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Your message...'})
+        widget=forms.Textarea(attrs={
+            'class': 'form-control',
+            'placeholder': 'Your message...'
+            })
     )
-    
+
+
+class NewMessageForm(forms.Form): # For adding messages to existing conversations
+    message = forms.CharField(
+        label="Message",
+        widget=forms.Textarea(attrs={
+            'class': 'form-control', 
+            'placeholder': 'Type your message here...'
+        })
+    )

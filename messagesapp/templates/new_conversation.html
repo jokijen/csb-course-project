@@ -7,12 +7,15 @@
         <p>Start a new conversation by selecting a user and sending them a message.</p>
         <form action="{% url 'new_conversation' %}" method="post">
             {% csrf_token %}
-            {{ form.as_p}}
+            {{ form.as_p }}
 
             {% if form.errors %}
             <div class="error-msg">
-                <p>{{ error }}</p>
-            </div>
+                {% for field, errors in form.errors.items %}
+                    {% for error in errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                {% endfor %}            </div>
             {% endif %}
 
             <button type="submit">Send message</button>

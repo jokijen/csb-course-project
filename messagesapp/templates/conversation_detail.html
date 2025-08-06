@@ -3,15 +3,43 @@
 {% block content %}
 
     <div class="container">
-        <h1>Home</h1>
-        <h2>Conversation</h2>
+        <h1>Conversation</h1>
+        <h2>From {{ conversation.initiator.username }} to {{ conversation.receiver.username }}</h2>
+        <a href="{% url 'home' %}">← Back to conversations</a>
         <hr> 
         {% for message in messages %}
-        <h3>{{ message.sender }} - {{ message.created }}</h3>
-        <p>{{ message.content}}</p>
+        <div class="message {% if message.sender == request.user %}sent{% else %}received{% endif %}">
+            <p>
+                <strong>{{ message.sender.username }}</strong>
+                <span style="font-size: 0.9em; color: #666;">
+                    ({{ message.created|date:"M d, Y H:i" }})
+                </span>
+            </p>
+            <p>{{ message.content }}</p>
+        </div>
         <hr> 
+        {% empty %}
+        <p>No messages in this conversation yet.</p>
+        <hr>
         {% endfor %}
+        
+        <h3>Send a new message</h3>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
 
+            {% if form.errors %}
+            <div class="error-msg">
+                {% for field, errors in form.errors.items %}
+                    {% for error in errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <button type="submit">Send message</button>
+        </form>
     </div>
     
 {% endblock %}

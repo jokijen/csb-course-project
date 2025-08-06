@@ -5,10 +5,13 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from .models import Conversation, Message
-from .forms import RegistrationForm, LoginForm, NewConversationForm
+from .forms import RegistrationForm, LoginForm, NewConversationForm, NewMessageForm
 
 
 def indexPage(request):
+    if request.user.is_authenticated:
+        return redirect("home")
+
     if request.method == "POST":
         form = LoginForm(request.POST)
 
@@ -47,6 +50,9 @@ def logoutPage(request):
 
 #@login_required
 def homePage(request):
+    if not request.user.is_authenticated:
+        return redirect('index')
+        
     user_id = request.user.id
     """
     context = {
@@ -63,6 +69,9 @@ def homePage(request):
 
 #@login_required
 def newConversationPage(request):
+    if not request.user.is_authenticated:
+        return redirect('index')
+        
     if request.method == "POST":
         form = NewConversationForm(request.POST)
 
@@ -90,11 +99,40 @@ def newConversationPage(request):
 
 #@login_required
 def conversationDetailPage(request, conversation_id):
+    if not request.user.is_authenticated:
+        return redirect('index')
+    
+    # Get the conversation and verify user has access
+    conversation = get_object_or_404(Conversation, id=conversation_id)
+    if request.user != conversation.initiator and request.user != conversation.receiver:
+        return redirect('home')
+        
     if request.method == "POST":
-        pass
+        form = NewMessageForm(request.POST)
+        if form.is_valid():
+            message_content = form.cleaned_data["message"]
+            
+            # Determine the recipient (the other person in the conversation)
+            recipient = conversation.receiver if request.user == conversation.initiator else conversation.initiator
+            
+            # Create the new message
+            Message.objects.create(
+                sender=request.user,
+                recipient=recipient,
+                conversation=conversation,
+                content=message_content
+            )
+            
+            # Redirect to avoid re-submission on page refresh
+            return redirect('conversation_detail', conversation_id=conversation_id)
+    else:
+        form = NewMessageForm()
 
-    else: 
-        conversation = get_object_or_404(Conversation, id=conversation_id)
-        messages = conversation.messages.all().order_by("created")
-
-    return render(request, "conversation_detail.html", {"messages": messages})
+    # Get all messages in the conversation
+    messages = conversation.messages.all().order_by("created")
+    
+    return render(request, "conversation_detail.html", {
+        "messages": messages,
+        "conversation": conversation,
+        "form": form
+    })

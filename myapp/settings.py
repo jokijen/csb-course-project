@@ -33,6 +33,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# Login URL for the @login_required decorator
+# LOGIN_URL = 'index'  # Redirect to your login page
 
 # Application definition
 
