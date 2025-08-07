@@ -1,13 +1,14 @@
 asgiref==3.8.1
 beautifulsoup4==4.12.3
-certifi==2024.7.4
+certifi>=2025.6.15
 charset-normalizer==3.3.2
 Django==5.1
 idna==3.7
 python-dotenv==1.0.1
 requests==2.32.3
-selenium==3.141.0
+selenium==3.141.0 # Has vulnerability
+# selenium==4.34.2 # Has no found vulnerabilities
 soupsieve==2.5
 sqlparse==0.5.1
-typing_extensions==4.12.2
-urllib3==1.26.19
+typing_extensions>=4.14.0
+urllib3==2.5.0

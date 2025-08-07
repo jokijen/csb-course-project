@@ -24,14 +24,21 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # !!! SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-!fj#++q$!^e_6@2q6&8w#4mkp5!nlbg0p5_k2vbtgmyao^&%$c'
+# Insecure way:
+SECRET_KEY = '1234'
 # Secure way:
 # SECRET_KEY = str(os.getenv("SECRET_KEY"))
 
 # !!! SECURITY WARNING: don't run with debug turned on in production!
+# Less secure way
 DEBUG = True
+# More secure way: 
+# DEBUG = os.environ.get("DEBUG") == "True"
 
-ALLOWED_HOSTS = []
+# Insecure way:
+ALLOWED_HOSTS = ['*']  # Allow all hosts for development purposes
+# Secure way:
+# ALLOWED_HOSTS = []
 
 # Login URL for the @login_required decorator
 # LOGIN_URL = 'index'  # Redirect to your login page
@@ -93,6 +100,10 @@ DATABASES = {
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
+# Insecure way:
+AUTH_PASSWORD_VALIDATORS = []
+# Secure way:
+"""
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -107,7 +118,7 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
+"""
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
