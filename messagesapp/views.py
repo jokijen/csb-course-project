@@ -48,11 +48,8 @@ def logoutPage(request):
     logout(request)
     return redirect("index")
 
-#@login_required
+@login_required
 def homePage(request):
-    if not request.user.is_authenticated:
-        return redirect('index')
-
     # Conversation deletion
     if request.method == "POST":
         delete_conversation = request.POST.get("delete")
@@ -75,11 +72,8 @@ def homePage(request):
 
     return render(request, "home.html", {"conversations": conversations})
 
-#@login_required
+@login_required
 def newConversationPage(request):
-    if not request.user.is_authenticated:
-        return redirect('index')
-
     # New conversation form submission
     if request.method == "POST":
         form = NewConversationForm(request.POST)
@@ -107,11 +101,8 @@ def newConversationPage(request):
 
     return render(request, "new_conversation.html", {"form": form})
 
-#@login_required
+@login_required
 def conversationDetailPage(request, conversation_id):
-    if not request.user.is_authenticated:
-        return redirect('index')
-    
     # Get the conversation and verify user has access
     conversation = get_object_or_404(Conversation, id=conversation_id)
     # Secure way: Ensure only initiator or receiver can view the conversation
