@@ -5,7 +5,7 @@ from .views import (
     homePage, 
     logoutPage,
     newConversationPage,
-    conversationDetailPage # , loginPageView, messagePageView, replyPageView, deletePageView
+    conversationDetailPage,
 )
 
 
@@ -17,11 +17,4 @@ urlpatterns = [
     path("new-conversation/", newConversationPage, name="new_conversation"),
     path("conversation/<int:conversation_id>/", conversationDetailPage, name="conversation_detail"),
 ]
-
-"""
-    ,
-    path("login/", loginPageView, name="login"),
-    path("message/", messagePageView, name="view_message"),
-    path("reply/", replyPageView, name="reply"),
-    path("delete-message/", deletePageView, name="delete_message"),
-"""
+# 
