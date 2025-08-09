@@ -5,7 +5,14 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from .models import Conversation, Message
-from .forms import RegistrationForm, LoginForm, NewConversationForm, NewMessageForm
+from .forms import (
+    RegistrationForm,
+    LoginForm,
+    NewConversationForm,
+    NewMessageForm,
+    ForgotPasswordForm,
+    ResetPasswordForm,
+)
 
 
 def indexPage(request):
@@ -26,6 +33,7 @@ def indexPage(request):
             else:
                 # Add error if authentication fails
                 form.add_error(None, "Invalid username or password. Please try again.")
+        return render(request, "index.html", {"form": form})
 
     form = LoginForm()
     return render(request, "index.html", {"form": form})
@@ -43,6 +51,47 @@ def registerPage(request):
     form = RegistrationForm()
 
     return render(request, "register.html", {"form": form})
+
+# Insecure way:
+def forgotPasswordPage(request):
+    # Password reset form submission
+    if request.method == "POST":
+        form = ForgotPasswordForm(request.POST)
+
+        if form.is_valid():
+            email = form.cleaned_data["email"]
+            secret_answer = form.cleaned_data["secret_answer"]
+
+            user = User.objects.filter(email=email).first()
+            # Check if user exists and secret answer matches
+            # Not implemented: Actual password reset logic
+            if user and user.first_name == secret_answer:
+                form.add_error(None, "You can now reset your password!")
+            else:
+                # Add error if email is not found or secret answer is incorrect
+                form.add_error(None, "Invalid email or secret answer.")
+        
+        return render(request, "forgot_password.html", {"form": form})
+
+    form = ForgotPasswordForm()
+    return render(request, "forgot_password.html", {"form": form})
+
+# Secure way:
+def resetPasswordPage(request):
+    # Password reset link form submission
+    if request.method == "POST":
+        form = ResetPasswordForm(request.POST)
+
+        if form.is_valid():
+            email = form.cleaned_data["email"]
+            user = User.objects.filter(email=email).first()
+            # Not implemented: Actual password reset logic by sending a reset link via email
+            form.add_error(None, "A reset link has been sent to your email if it was used to register!")
+
+        return render(request, "reset_link.html", {"form": form})
+
+    form = ResetPasswordForm()
+    return render(request, "reset_link.html", {"form": form})
 
 def logoutPage(request):
     logout(request)

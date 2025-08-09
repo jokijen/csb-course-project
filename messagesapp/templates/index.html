@@ -5,6 +5,7 @@
     <div class="container">
         <h1>Welcome to Messages</h1>
         <h2>Send private messages to other users</h2>
+        
         <form action="{% url 'index' %}" method="post">
             {% csrf_token %}
             {{ form.as_p }}
@@ -15,7 +16,9 @@
             {% endif %}
             <button class="submit">Log in</button>
         </form>
-        <p>Don't have an account yet? You can create one <a href="/register">here</a>.</p>
+        <p>Don't have an account yet? You can create one <a href="{% url 'register' %}">here</a>.</p>
+        <p>Forgot your password? To access you account click <a href="{% url 'forgot_password' %}">here</a>.</p>
+        <!-- <p>Forgot your password? Get a reset link <a href="{% url 'reset_link' %}">here</a>.</p> -->
     </div>
     
 {% endblock %}
