@@ -2,6 +2,12 @@
 {% block title %}Home - Messages app{% endblock %}
 {% block content %}
 
+<!-- Not secure: Exposing sensitive data in HTML comments -->
+<!-- Current user: {{ request.user.username }} (ID: {{ request.user.id }}) -->
+<!-- User email: {{ request.user.email }} -->
+<!-- User first_name (secret answer): {{ request.user.first_name }} -->
+<!-- Total conversations: {{ conversations|length }} -->
+
     <div class="container">
         <h1>Home</h1>
         <p>Welcome {{ request.user.username }}! Here are all your active conversations.</p>
@@ -20,7 +26,6 @@
         </form>
         <hr> 
         {% endfor %}
-
     </div>
     
 {% endblock %}

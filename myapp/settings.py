@@ -41,7 +41,7 @@ ALLOWED_HOSTS = ['*']  # Allow all hosts for development purposes
 # ALLOWED_HOSTS = []
 
 # Login URL for the @login_required decorator
-# LOGIN_URL = 'index'  # Redirect to your login page
+LOGIN_URL = 'index'  # Redirect to your login page
 
 # Application definition
 
@@ -141,5 +141,3 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-LOGIN_URL = 'index'

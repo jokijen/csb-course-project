@@ -4,6 +4,7 @@
 
     <div class="container">
         <h1>Conversation</h1>
+        <p>You are logged in as {{ request.user.username }}</p>
         <h2>From {{ conversation.initiator.username }} to {{ conversation.receiver.username }}</h2>
         <a href="{% url 'home' %}">← Back to conversations</a>
         <hr> 
