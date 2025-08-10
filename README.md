@@ -37,9 +37,9 @@ DEBUG=<bool-value>
 ## FLAW 1: A05:2021–Security Misconfiguration
 
 ### exact source link pinpointing flaw 1: 
-https://github.com/jokijen/csb-course-project/blob/main/myapp/settings.py#L28
-https://github.com/jokijen/csb-course-project/blob/main/myapp/settings.py#L36
-https://github.com/jokijen/csb-course-project/blob/main/myapp/settings.py#L101
+- https://github.com/jokijen/csb-course-project/blob/main/myapp/settings.py#L28
+- https://github.com/jokijen/csb-course-project/blob/main/myapp/settings.py#L36
+- https://github.com/jokijen/csb-course-project/blob/main/myapp/settings.py#L101
 
 ### description of flaw 1: 
 There are several security misconfigurations in the settings. The values for ‘SECRET_KEY’ and ‘DEBUG=True’ are hard-coded into the settings.py file that has also been added to a public repository (L28, L34). The secret key relates to cryptographic signing of the application and may allow an attacker to successfully perform an attack. Having ‘DEBUG’ set to ‘True’ allows detailed error messages, which may reveal unnecessary information about the application (e.g. its architecture or database). 
@@ -58,11 +58,12 @@ Finally, there should be proper password validation in place to ensure and encou
 
 ## FLAW 2: A06:2021–Vulnerable and Outdated Components
 
-### exact source link pinpointing flaw 2: https://github.com/jokijen/csb-course-project/blob/main/requirements.txt#L9 
+### exact source link pinpointing flaw 2: 
+- https://github.com/jokijen/csb-course-project/blob/main/requirements.txt#L9 
 
 ### description of flaw 2:
 Using packages and libraries with known vulnerabilities makes the application susceptible to attacks. Selenium version 3.141.0 has a known vulnerability that may enable a Cross-Site Request Forgery (CSRF) attack as is noted in the CVE database: 
-https://www.cvedetails.com/version/1429670/Selenium-Selenium-Grid-3.141.0.html
+- https://www.cvedetails.com/version/1429670/Selenium-Selenium-Grid-3.141.0.html
 
 ### how to fix it: 
 The best practices instruct to always use safe, up-to-date versions of packages and libraries, and actively keep them updated as time moves on. In general, it is important to monitor security advisories as well as published patches and versions. This allows one to stay informed on found vulnerabilities that might affect the security of the application. 
@@ -73,7 +74,7 @@ To fix this flaw remove L9 and include the text now commented out on L10, which 
 ## FLAW 3: A01:2021–Broken Access Control
 
 ### exact source link pinpointing flaw 3:
-https://github.com/jokijen/csb-course-project/blob/main/messagesapp/views.py#L156 
+- https://github.com/jokijen/csb-course-project/blob/main/messagesapp/views.py#L156 
 
 ### description of flaw 3:
 The user is able to access a conversation that they are not a part of simply by navigating to it by adding the conversation id to the url, for example: localhost:8000/conversation/3/
@@ -86,10 +87,10 @@ In this case, the flaw may be fixed by adding back commented out lines L158-159.
 ## FLAW 4: A04:2021–Insecure Design
 
 ### exact source link pinpointing flaw 4:
-https://github.com/jokijen/csb-course-project/blob/main/messagesapp/templates/index.html#L20
-https://github.com/jokijen/csb-course-project/blob/main/messagesapp/views.py#L55
-https://github.com/jokijen/csb-course-project/blob/main/messagesapp/urls.py#L17
-https://github.com/jokijen/csb-course-project/blob/main/messagesapp/forms.py#L78
+- https://github.com/jokijen/csb-course-project/blob/main/messagesapp/templates/index.html#L20
+- https://github.com/jokijen/csb-course-project/blob/main/messagesapp/views.py#L55
+- https://github.com/jokijen/csb-course-project/blob/main/messagesapp/urls.py#L17
+- https://github.com/jokijen/csb-course-project/blob/main/messagesapp/forms.py#L78
 
 ### description of flaw 4:
 If a user forgets their password, the credential recovery workflow includes a “questions and answers” option, which is outdated and has been prohibited by the NIST 800-63b, OWASP ASVS, and OWASP Top 10. The reason for this is that other people may also know the answer to the question and this practice is therefore not considered sufficiently secure. 
@@ -98,12 +99,12 @@ If a user forgets their password, the credential recovery workflow includes a �
 Instead, a better way of handing credential recovery would be to ask the user to fill in the email they used to register and send them a unique password reset link that is only valid for a limited time period. This is safer, because the user should be the only person who has access to their email, and no password is sent to them. Additionally, it is better to not confirm if the email exists in the database and only give a blanket message when an email is submitted through the form.  
 
 In the app both logics have been implemented to a point (but not the actual resetting, reset link creation and email as it is out of the scope of this course). You can quickly switch over to the more secure implementation by commenting out:
-https://github.com/jokijen/csb-course-project/blob/main/messagesapp/templates/index.html#L20
-https://github.com/jokijen/csb-course-project/blob/main/messagesapp/forms.py#L6 (L6–35)
+- https://github.com/jokijen/csb-course-project/blob/main/messagesapp/templates/index.html#L20
+- https://github.com/jokijen/csb-course-project/blob/main/messagesapp/forms.py#L6 (L6–35)
 
 … and including:
-https://github.com/jokijen/csb-course-project/blob/main/messagesapp/templates/index.html#L21
-https://github.com/jokijen/csb-course-project/blob/main/messagesapp/forms.py#L39 (L39–46)
+- https://github.com/jokijen/csb-course-project/blob/main/messagesapp/templates/index.html#L21
+- https://github.com/jokijen/csb-course-project/blob/main/messagesapp/forms.py#L39 (L39–46)
 
 … which will preserve some faulty logic in the background, but remove the question from registration and the credential recovery workflow accessed via the link on the login page. 
 
@@ -111,7 +112,7 @@ https://github.com/jokijen/csb-course-project/blob/main/messagesapp/forms.py#L39
 ## FLAW 5: A09:2021–Security Logging and Monitoring Failures
 
 ### exact source link pinpointing flaw 5:
-https://github.com/jokijen/csb-course-project/blob/main/messagesapp/templates/home.html#L5
+- https://github.com/jokijen/csb-course-project/blob/main/messagesapp/templates/home.html#L5
 
 ### description of flaw 5:
 Adding unnecessary logging (perhaps for testing purposes) that ends up visible in production makes the application vulnerable to information leakage which may give an attacker valuable information and even enable an attack. In this example, data is revealed through comments left in the home.html file, that reveals field names and values. In this case, the answer to the user’s secret question and information on how it is stored (i.e. as ‘first_name’) are revealed. 
