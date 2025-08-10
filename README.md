@@ -31,7 +31,7 @@ DEBUG=<bool-value>
 6. Run migrations: $ python manage.py migrate
 7. Run the application: $ python manage.py runserver
 8. Open a browser and navigate to 'http://localhost:8000/'
-9. Add new users, login, and send messages
+9. Add a new user, login, and send messages (the following users exist in the database: admin - Test987, Anna - Anna123, Timo - Timo123)
 
 
 ## FLAW 1: A05:2021–Security Misconfiguration
