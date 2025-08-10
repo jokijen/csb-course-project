@@ -6,8 +6,7 @@ The OWASP top 10 can be found at https://owasp.org/Top10/
 
 
 ## Table of contents
-- [Testing the application](#testing-the-application)
-- [FLAW 1](#flaw-1)
+- [Running the application](#running-the-application)
 - [Credits](#credits)
 
 
@@ -19,6 +18,7 @@ Take the following steps to run the application, but be mindful that the app is 
 2. Create a file .env into the root directory and add a secret key:
 ```
 SECRET_KEY=<your-secret-key>
+DEBUG=<bool-value>
 ``` 
 3. Create a virtual environment: $ python3 -m venv venv
 4. Activate the virtual environment: $ source venv/bin/activate
@@ -27,15 +27,6 @@ SECRET_KEY=<your-secret-key>
 7. Run the application: $ python manage.py runserver
 8. Open a browser and navigate to 'http://localhost:8000/'
 9. Add new users, login, and send messages
-
-
-## FLAW 1
-
-Source: 
-
-Description: 
-
-Fixing the flaw: 
 
 
 ## Credits
