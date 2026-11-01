@@ -4,6 +4,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+from logging import getLogger
+from time import time
 from .models import Conversation, Message
 from .forms import (
     RegistrationForm,
@@ -13,6 +15,8 @@ from .forms import (
     ForgotPasswordForm,
     ResetPasswordForm,
 )
+
+failed_login_attempts = {}
 
 
 def indexPage(request):
@@ -33,6 +37,27 @@ def indexPage(request):
             else:
                 # Add error if authentication fails
                 form.add_error(None, "Invalid username or password. Please try again.")
+
+                # Secure way: Log failed login attempts
+                # logger = getLogger(__name__)
+                # users_ip = request.META.get('REMOTE_ADDR')
+                # attempt_key = (users_ip, username)
+                # timestamp = time()
+
+                # if attempt_key not in failed_login_attempts:
+                #     failed_login_attempts[attempt_key] = []
+
+                # failed_login_attempts[attempt_key] = [
+                #     attempt for attempt in failed_login_attempts.get(attempt_key) if timestamp - attempt < 300
+                # ]
+
+                # failed_login_attempts[attempt_key].append(timestamp)
+
+                # # Log each failed attempt, mentioning the username and IP address
+                # logger.warning(f"Failed login attempt for user: {username}, IP: {users_ip}")
+                # # If there are over 5 failed login attempts from one IP within 5 min, log a warning
+                # if len(failed_login_attempts[attempt_key]) > 5:
+                #     logger.warning(f"Multiple failed login attempts from IP: {users_ip}")
         return render(request, "index.html", {"form": form})
 
     form = LoginForm()

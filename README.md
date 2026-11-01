@@ -2,7 +2,7 @@
 
 This project has been created for learning purposes for the course "Cyber Security Base: Project I" (University of Helsinki). The objective is to create a web application with five flaws from the OWASP top 10 -list, and provide fixes for them. The fixes are commented out from the code.
 
-The OWASP top 10 can be found at https://owasp.org/Top10/
+The OWASP top 10 can be found at https://owasp.org/Top10/2021/
 
 
 ## Table of contents
@@ -74,21 +74,21 @@ To fix this flaw remove L9 and include the text now commented out on L10, which 
 ## FLAW 3: A01:2021–Broken Access Control
 
 ### exact source link pinpointing flaw 3:
-- https://github.com/jokijen/csb-course-project/blob/main/messagesapp/views.py#L156 
+- https://github.com/jokijen/csb-course-project/blob/main/messagesapp/views.py#L182 
 
 ### description of flaw 3:
 The user is able to access a conversation that they are not a part of simply by navigating to it by adding the conversation id to the url, for example: localhost:8000/conversation/3/
 This is possible due to insufficient authentication of the user trying to access the conversation. In the faulty version there are no checks in place that verify if the user trying to access the conversation is one of the parties of the conversation. This would be a very serious security flaw as it essentially exposes all conversations to any user that is logged in.  
 
 ### how to fix it: 
-In this case, the flaw may be fixed by adding back commented out lines L158-159. These implement a check: if the user navigating to the conversation is not one of the conversation parties, they are redirected to ‘home’ instead of taken to the conversation. 
+In this case, the flaw may be fixed by adding back commented out lines L183-184. These implement a check: if the user navigating to the conversation is not one of the conversation parties, they are redirected to ‘home’ instead of taken to the conversation. 
 
 
 ## FLAW 4: A04:2021–Insecure Design
 
 ### exact source link pinpointing flaw 4:
 - https://github.com/jokijen/csb-course-project/blob/main/messagesapp/templates/index.html#L20
-- https://github.com/jokijen/csb-course-project/blob/main/messagesapp/views.py#L55
+- https://github.com/jokijen/csb-course-project/blob/main/messagesapp/views.py#L80
 - https://github.com/jokijen/csb-course-project/blob/main/messagesapp/urls.py#L17
 - https://github.com/jokijen/csb-course-project/blob/main/messagesapp/forms.py#L78
 
@@ -112,13 +112,17 @@ In the app both logics have been implemented to a point (but not the actual rese
 ## FLAW 5: A09:2021–Security Logging and Monitoring Failures
 
 ### exact source link pinpointing flaw 5:
-- https://github.com/jokijen/csb-course-project/blob/main/messagesapp/templates/home.html#L5
+- https://github.com/jokijen/csb-course-project/blob/main/messagesapp/views.py#L41
 
 ### description of flaw 5:
-Adding unnecessary logging (perhaps for testing purposes) that ends up visible in production makes the application vulnerable to information leakage which may give an attacker valuable information and even enable an attack. In this example, data is revealed through comments left in the home.html file, that reveals field names and values. In this case, the answer to the user’s secret question and information on how it is stored (i.e. as ‘first_name’) are revealed. 
+Allowing unrestricted login attempts without logging or restricting them in any way. This would allow brute force attacks that attempt to access someone's messages. 
 
 ### how to fix it: 
-These comments should simply be deleted (L5–10). In general, it is important to ensure that logs and error messages do not contain information that would be valuable to an attacker. Error messages should nonetheless be valuable to the user so they can react appropriately when an error occurs. 
+Add logging of failed attempts and a warning if multiple failed login attempts occur in a small time frame (here over 5 attempts in 5 minutes). 
+
+Include the following lines that have currently been commented out:
+- https://github.com/jokijen/csb-course-project/blob/main/messagesapp/views.py#L39 (L41–60)
+- https://github.com/jokijen/csb-course-project/blob/main/myapp/settings.py#L124 (L124–136)
 
 
 ## Credits
