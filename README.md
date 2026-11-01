@@ -8,7 +8,7 @@ The OWASP top 10 can be found at https://owasp.org/Top10/2021/
 ## Table of contents
 - [Running the application](#running-the-application)
 - [FLAW 1: A05:2021–Security Misconfiguration](#flaw-1-a052021security-misconfiguration)
-- [FLAW 2: A02:2021 – Cryptographic Failures](#flaw-2-a022021cryptographic-failures)
+- [FLAW 2: A02:2021–Cryptographic Failures](#flaw-2-a022021cryptographic-failures)
 - [FLAW 3: A01:2021–Broken Access Control](#flaw-3-a012021broken-access-control)
 - [FLAW 4: A04:2021–Insecure Design](#flaw-4-a042021insecure-design)
 - [FLAW 5: A09:2021–Security Logging and Monitoring Failures](#flaw-5-a092021security-logging-and-monitoring-failures)
@@ -58,7 +58,7 @@ Additionally, only specified hosts should be allowed (settings.py, L41), here an
 Finally, there should be proper password validation in place to ensure and encourage a stronger password (settings.py, L107–120). This means that the user will not be able to set a password that is clearly unsafe and hence easier to guess or brute force. 
 
 
-## FLAW 2: A02:2021 – Cryptographic Failures
+## FLAW 2: A02:2021–Cryptographic Failures
 
 ### exact source link pinpointing flaw 2: 
 - https://github.com/jokijen/csb-course-project/blob/main/myapp/settings.py#L28
