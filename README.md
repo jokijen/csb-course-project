@@ -8,7 +8,7 @@ The OWASP top 10 can be found at https://owasp.org/Top10/2021/
 ## Table of contents
 - [Running the application](#running-the-application)
 - [FLAW 1: A05:2021–Security Misconfiguration](#flaw-1-a052021security-misconfiguration)
-- [FLAW 2: A06:2021–Vulnerable and Outdated Components](#flaw-2-a062021vulnerable-and-outdated-components)
+- [FLAW 2: A02:2021 – Cryptographic Failures](#flaw-2-a022021cryptographic-failures)
 - [FLAW 3: A01:2021–Broken Access Control](#flaw-3-a012021broken-access-control)
 - [FLAW 4: A04:2021–Insecure Design](#flaw-4-a042021insecure-design)
 - [FLAW 5: A09:2021–Security Logging and Monitoring Failures](#flaw-5-a092021security-logging-and-monitoring-failures)
@@ -37,38 +37,37 @@ DEBUG=<bool-value>
 ## FLAW 1: A05:2021–Security Misconfiguration
 
 ### exact source link pinpointing flaw 1: 
-- https://github.com/jokijen/csb-course-project/blob/main/myapp/settings.py#L28
-- https://github.com/jokijen/csb-course-project/blob/main/myapp/settings.py#L36
-- https://github.com/jokijen/csb-course-project/blob/main/myapp/settings.py#L101
+- https://github.com/jokijen/csb-course-project/blob/main/myapp/settings.py#L34
+- https://github.com/jokijen/csb-course-project/blob/main/myapp/settings.py#L39
+- https://github.com/jokijen/csb-course-project/blob/main/myapp/settings.py#L104
 
 ### description of flaw 1: 
-There are several security misconfigurations in the settings. The values for ‘SECRET_KEY’ and ‘DEBUG=True’ are hard-coded into the settings.py file that has also been added to a public repository (L28, L34). The secret key relates to cryptographic signing of the application and may allow an attacker to successfully perform an attack. Having ‘DEBUG’ set to ‘True’ allows detailed error messages, which may reveal unnecessary information about the application (e.g. its architecture or database). 
+There are several security misconfigurations in the settings. 
 
-Additionally, all hosts have been allowed by default (L39) instead of only a set list of hosts that the application can serve (i.e. a whitelist). This may make the application susceptible to host header attacks. 
+The value for ‘DEBUG=True’ is hard-coded into the settings.py file that has also been added to a public repository (settings.py, L34).  Having ‘DEBUG’ set to ‘True’ allows detailed error messages, which may reveal unnecessary information about the application (e.g. its architecture or database). 
 
-Finally, there are no password validators (L104), so the user would be able to set a very weak password, such as their name or even a single character.
+Additionally, all hosts have been allowed by default (settings.py, L39) instead of only a set list of hosts that the application can serve (i.e. a whitelist). This may make the application susceptible to host header attacks. 
+
+Finally, there are no password validators (settings.py, L104), so the user would be able to set a very weak password, such as their name or even a single character.
 
 ### how to fix it: 
-A better way is to add a separate '.env' file that contains the values for ‘SECRET_KEY’ and ‘DEBUG’. This file is then excluded from being added to the repository by adding its name into the '.gitignore' file (L30, L36). If no such file exists, ‘DEBUG’ will evaluate to ‘False’ which is safer.
+A better way is to add a separate '.env' file that contains the value for ‘DEBUG’ and get the value from there (settings.py, L36). This file is then excluded from being added to the repository by adding its name into the '.gitignore' file (.gitignore, L59). If no such file exists, ‘DEBUG’ will evaluate to ‘False’ which is safer.
 
-Additionally, only specified hosts should be allowed (L41), here an empty list. When ‘ALLOWED_HOSTS’ is an empty list and ‘DEBUG’ is ‘True’, Django performs default host validation using the list ['.localhost', '127.0.0.1', '[::1]'] which is suitable for development and testing. 
+Additionally, only specified hosts should be allowed (settings.py, L41), here an empty list. When ‘ALLOWED_HOSTS’ is an empty list and ‘DEBUG’ is ‘True’, Django performs default host validation using the list ['.localhost', '127.0.0.1', '[::1]'] which is suitable for development and testing. 
 
-Finally, there should be proper password validation in place to ensure and encourage a stronger password (L107–120). This means that the user will not be able to set a password that is clearly unsafe and hence easier to guess or brute force. 
+Finally, there should be proper password validation in place to ensure and encourage a stronger password (settings.py, L107–120). This means that the user will not be able to set a password that is clearly unsafe and hence easier to guess or brute force. 
 
 
-## FLAW 2: A06:2021–Vulnerable and Outdated Components
+## FLAW 2: A02:2021 – Cryptographic Failures
 
 ### exact source link pinpointing flaw 2: 
-- https://github.com/jokijen/csb-course-project/blob/main/requirements.txt#L9 
+- https://github.com/jokijen/csb-course-project/blob/main/myapp/settings.py#L28
 
 ### description of flaw 2:
-Using packages and libraries with known vulnerabilities makes the application susceptible to attacks. Selenium version 3.141.0 has a known vulnerability that may enable a Cross-Site Request Forgery (CSRF) attack as is noted in the CVE database: 
-- https://www.cvedetails.com/version/1429670/Selenium-Selenium-Grid-3.141.0.html
+The value for ‘SECRET_KEY’ is hard-coded into the settings.py file that has also been added to a public repository (settings.py, L28). The secret key relates to cryptographic signing of the application and may allow an attacker to successfully perform an attack.
 
 ### how to fix it: 
-The best practices instruct to always use safe, up-to-date versions of packages and libraries, and actively keep them updated as time moves on. In general, it is important to monitor security advisories as well as published patches and versions. This allows one to stay informed on found vulnerabilities that might affect the security of the application. 
-
-To fix this flaw remove L9 and include the text now commented out on L10, which contains a newer version with no known vulnerabilities that is also compatible with the other packages. Then run ‘pip install -r requirements.txt’ to compete the upgrade. 
+A better way is to add a separate '.env' file that contains the value for ‘SECRET_KEY’ and get the value from there (settings.py, L30). This file is then excluded from being added to the repository by adding its name into the '.gitignore' file (.gitignore, L59). Here the flaw can be fixed by commenting out L28 and including L30 in settings.py.
 
 
 ## FLAW 3: A01:2021–Broken Access Control

@@ -55,6 +55,7 @@ profile_default/
 ipython_config.py
 
 # Environments
+# Fix for flaws 1 & 2: Separate .env file for sensitive data and added to this .gitignore
 .env
 .venv
 env/
